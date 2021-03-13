@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Erreur de paiment - {{ SHOP_NAME }}{% endblock %}
+
+{% block content %}
+    <p class="alert alert-danger text-center">
+        Votre paiement n'a pas abouti<br>
+        Vous pouvez réessayer en cliquant <a href="{{ path('order') }}">ici</a>
+    </p>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes adresses - {{ SHOP_NAME }}{% endblock %}
+
+{% block content %}
+    {% set addAddressPath = path('add_address') %}
+    <a href="{{ addAddressPath }}" class="btn btn-info btn-sm float-right">Ajouter une adresse</a>
+    <h1>Mes adresses</h1>
+    <p>C'est dans cet espace que vous allez pouvoir gérer toutes vos adresses.</p>
+    <a href="{{ path('account') }}">Retour</a>
+    <hr>
+    {% if app.user.addresses|length %}
+    <div class="row">
+        {% for address in app.user.addresses %}
+        {% set formattedPhone = address.phone|split('',2)|join(' ') %}
+            <div class="col-md-4">
+                <div class="card">
+                    <h5 class="card-header">{{ address.name }}</h5>
+                    <div class="card-body">
+                    {% if address.company is not null %}
+                        <h5 class="card-title">{{ address.company }}</h5>
+                        <h6 class="card-title">{{ address.firstname }} {{ address.lastname }}</h6>
+                    {% else %}
+                        <h5 class="card-title">{{ address.firstname }} {{ address.lastname }}</h5>
+                    {% endif %}
+                        
+                        <p class="card-text">
+                            {{ address.address }}<br>
+                            {{ address.zipcode }} {{ address.city }} - {{ address.country }}<br>
+                            <i class="tel-icon" aria-hidden="true"></i> {{ formattedPhone }}
+                        </p>
+                        <a href="{{ path('edit_address', {id: address.id}) }}" class="btn btn-primary">Modifier</a>
+                        <a href="{{ path('delete_address', {id: address.id}) }}" class="btn btn-danger">Supprimer</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% else %}
+        <div class="alert alert-info">
+            Vous n'avez pas encore ajouté d'adresse dans votre compte client.<br>
+            Pour en ajouter une, veuillez cliquer <a href="{{ addAddressPath }}">ici</a>.
+        </div>
+    {% endif %}
+{% endblock %}
+

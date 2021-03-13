@@ -1,0 +1,194 @@
+@import "~bootstrap/scss/bootstrap";
+@import "./carousel";
+
+.navbar-item-custom, .navbar-item-custom a {
+    color: white
+}
+
+body{
+    position:relative;
+}
+
+a.no-decoration{
+    color: inherit;
+}
+
+.footer-custom {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+    background-color: #dfeaff;
+    padding: 10px 0;
+}
+
+.container.marketing{
+    margin-bottom: 100px;
+}
+
+.footer-custom p {
+    margin: 0;
+}
+
+.table th, .table td{
+    vertical-align: middle;
+}
+
+
+
+.product-item{
+    &, a, a:hover{
+        color: #5a5a5a;
+    }
+    .product-title{
+        text-transform: uppercase;
+        margin-bottom: 1px;
+    }
+    .product-subtitle{
+        font-size: 14px;
+        margin-bottom: 0px;
+    }
+}
+
+
+.product-price, .product-page-price{
+    display: block;
+    font-weight: bold;
+    &:after{
+        content: " €";
+    }
+}
+
+.product-page-title {
+    font-size: 2rem;
+}
+
+.product-page-subtitle{
+    font-size: 1.4rem;
+}
+
+.product-page-price{
+    font-size: 1.2rem;
+}
+
+td:empty, td:blank{
+    visibility: hidden;
+}
+
+.trash-icon{
+    content: url("../images/trash.svg");
+    width: 1em;
+    &:hover{
+        content: url("../images/trash-hover.svg");
+    }
+}
+
+.trash-btn{
+    margin-left: 1rem;
+}
+
+.qty-selector{
+    position:relative;
+    bottom:-0.5em;
+    display: inline-block;
+    text-align: center;
+    border: 1px solid rgba(0,0,0,0.5);
+    font-weight: bold;
+    border-radius: 2px;
+    box-shadow: 0px 0px 2px;
+    height: 2.5em;
+    a{
+        width: 100%;
+        height: 50%;
+        line-height: 100%;
+        transition: all 0.5s;
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        &:first-child{
+            border-bottom: 1px solid black;
+        }
+
+        &:hover{
+            color: white;
+            background-color: black;
+        }
+    }
+}
+
+.cart-icon{
+    content: url("../images/shopping-cart.svg");
+    width: 1em;
+}
+
+.cart-btn{
+    transition: font-size 0.2s;
+    margin-right: 0.3em;
+    &:hover{
+        font-size: 1.1em;
+    }
+}
+
+.tel-icon{
+    content: url("../images/telephone.svg");
+    width: 1em;
+}
+
+.block-small{
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+
+.order-summary{
+    width: 100%;
+    background-color: #f4f8ff;
+    border-collapse: collapse;
+    //border-spacing: 3em 0;
+    th{
+        padding-bottom: 1em;
+        padding-top: 5px;
+    }
+    tbody tr{
+
+        td:first-child{
+            text-align: center;
+        }
+        td:not(:first-child){
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding: 10px;
+            text-align: right;
+        }
+        // td:last-child{
+        //     text-align: right;
+        // }
+        
+    }
+}
+
+.order-total{
+    text-align: right !important;
+    padding: 10px;
+}
+
+.form-check{
+    background-color: #f4f8ff;
+    padding: 20px 65px;
+}
+
+.col-form-label{
+    font-weight: bold;
+}
+
+.cart-btn{
+    position: relative;
+}
+
+#badge-cart{
+    position: absolute;
+    top: -0.5em;
+    right: -0.5em;
+    text-align: center;
+    font-size: 0.55em;
+}

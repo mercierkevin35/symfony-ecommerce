@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+{% from '_includes/display_cart.twig' import displayCart %}
+
+
+{% block title %}Récapitulatif - {{ SHOP_NAME }}{% endblock %}
+
+{% block javascripts_head %}
+<script src="https://js.stripe.com/v3/"></script>
+{% endblock %}
+
+{% block content %}
+<h2>Mon récapitulatif</h2>
+<p>
+    Vérifiez vos informations avant de payer votre commande
+</p>
+<hr>
+<div class = "row">
+    <div class = "col-xl-6">
+        <p class="form-check">
+            <strong>Mon adresse de livraison :</strong><br>
+            {{ delivery|raw }}
+        </p>
+        <p class="form-check">
+            <strong>Mon transporteur :</strong><br>
+            {{ carrier.name }}<br>
+            {{ carrier.description }}<br>
+            {{ (carrier.price/100)|number_format(2, ',', ' ') }} €
+        </p>
+
+
+        
+    </div>
+    <div class = "col-xl-6">
+        {% set carrier = [carrier] %}
+        {{ displayCart(cart, carrier) }}
+        <hr>
+        <a class="btn btn-block btn-success" id="checkout-button">Payer | {{ total|number_format(2, ',', ' ') }} €</a>
+    </div>
+    
+</div>
+
+
+{% endblock %}
+
+{% block javascripts_endBody %}
+<script type="text/javascript">
+    // Create an instance of the Stripe object with your publishable API key
+    var stripe = Stripe("pk_test_51I1b1EEe3Qw4s31LxAC03VsoDbqNezNpyS4fWM7y6lg3yJBmB48yrNGBZRoY6rebGi1qarH7wCSMkmfq7oxB20eJ009GP5vo25");
+    var checkoutButton = document.getElementById("checkout-button");
+    checkoutButton.addEventListener("click", function () {
+      fetch("/order/create-checkout-session/{{ reference }}", {
+        method: "POST",
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (session) {
+          if(session.error == 'error'){
+              window.location.replace("{{ path('order') }}");
+          }else{
+              return stripe.redirectToCheckout({ sessionId: session.id });
+          }
+        })
+        .then(function (result) {
+          // If redirectToCheckout fails due to a browser or network
+          // error, you should display the localized error message to your
+          // customer using error.message.
+          if (result.error) {
+            alert(result.error.message);
+          }
+        })
+        .catch(function (error) {
+          console.error("Error:", error);
+        });
+    });
+  </script>
+{% endblock %}

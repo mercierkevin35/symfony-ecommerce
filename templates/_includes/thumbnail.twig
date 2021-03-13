@@ -1,0 +1,10 @@
+{% macro thumbnail(name, filename, alt = '#', height = 75) %}
+<figure>
+    <img
+        src="{{ asset('uploads/files/{filename}')|trans({'{filename}': filename }) }}"
+        alt = "{{ alt }}"
+        height= "{{ height }}"
+    >
+    <figcaption>{{ name }}</figcaption>
+</figure>
+{% endmacro %}

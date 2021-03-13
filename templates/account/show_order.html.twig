@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+{% from '_includes/display_cart.twig' import displayCart %}
+{% block title %}Détails commande - {{ SHOP_NAME }}{% endblock %}
+
+{% block content %}
+<h2>Détails de la commande n°{{ order.reference }}</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Article</th>
+      <th scope="col">Prix</th>
+      <th scope="col">Quantité</th>
+      <th scope="col">Total</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for article in orderDetails %}
+    <tr>
+      <td>
+        {% if article.slug %}
+          <a href = "{{ path('product', {slug: article.slug}) }}">{{ article.productName }}</a>
+        {% else %}
+          {{ article.productName }}
+        {% endif %}
+      </td>
+      <td>{{ (article.price/100)|number_format(2,',', ' ') }} €</td>
+      <td>{{ article.quantity }}</td>
+      <td>{{ (article.total/100)|number_format(2,',', ' ') }} €</td>
+    </tr>
+  {% endfor %}
+    <tr>
+      <td>Livraison {{ order.carrierName }}</td>
+      <td>{{ (order.carrierPrice/100)|number_format(2,',', ' ') }} €</td>
+      <td>1</td>
+      <td>{{ (order.carrierPrice/100)|number_format(2,',', ' ') }} €</td>
+    </tr>
+
+    <tr>
+      <th scope="row" colspan="3">Total</td>
+      <td><b>{{ (order.total/100)|number_format(2,',', ' ') }} €<b/></td>
+    </tr>
+
+  </tbody>
+
+
+</table>
+
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande validée - {{ SHOP_NAME }}{% endblock %}
+
+{% block content %}
+    <p class="alert alert-info text-center">
+        Merci {{ order.user.firstname }} {{ order.user.lastname }} pour votre commande<br>
+        Vous allez prochainement recevoir un mail de confirmation à l'adresse {{ order.user.email }}
+    </p>
+{% endblock %}

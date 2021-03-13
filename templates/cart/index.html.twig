@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+{% from "_includes/qty_selector.twig" import qtySelector %}
+{% from "_includes/thumbnail.twig" import thumbnail %}
+
+{% block title %}Mon Panier - {{ SHOP_NAME }}{% endblock %}
+
+{% block content %}
+    <h1>Mon panier</h1>
+    <p>Retrouvez l'ensemble des produits que vous avez ajouté à votre panier</p>
+    <hr>
+    {% if cart|length %}
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Produit</th>
+                    <th scope="col">Quantité</th>
+                    <th scope="col">Prix unitaire</th>
+                    <th scope="col">Prix total</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% set total = 0 %}
+                {% for item in cart %}
+                    {% set price = item.product.price / 100 %}
+                    {% set priceTimesQty = price * item.qty %}
+                    {% set total = total + priceTimesQty %}
+                    <tr>
+                        <th scope="row">
+                            <a class = "no-decoration" href = {{ path('product', {'slug': item.product.slug })}}>{{ thumbnail(item.product.name, item.product.illustration, item.product.name) }}</a>
+                        </th>
+                        <td>{{ item.qty }} {{ qtySelector(path('add_item', {'id': item.product.id}), path('remove_item', {'id': item.product.id})) }}</td>
+                        <td>{{ price|number_format(2, ',', ' ') }} €</td>
+
+                        <td>{{ priceTimesQty|number_format(2, ',', ' ') }} € <a href="{{ path('clear_item', {'id': item.product.id}) }}" class="trash-btn"><span class="trash-icon"></span></a></td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <strong>Total de la commande</strong>
+                    </td>
+                    <td>
+                        {{ total|number_format(2, ',', ' ') }} €
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="{{ path('order') }}" class="btn-block btn-success btn">Valider mon panier</a>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            Votre panier est vide !
+        </div>
+    {% endif %}
+{% endblock %}

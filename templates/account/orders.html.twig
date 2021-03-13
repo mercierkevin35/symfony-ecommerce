@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes commandes - {{ SHOP_NAME }}{% endblock %}
+
+{% block content %}
+    <h1>Mes commandes</h1>
+    <a href="{{ path('account') }}">Retour</a>
+    <hr>
+    <table class="table table-striped">
+    <thead>
+        <tr>
+        <th scope="col">Référence</th>
+        <th scope="col">Date</th>
+        <th scope="col">Total</th>
+        <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for order in orders %}
+        <tr>
+            <th scope="row"><span class="badge badge-secondary">{{ order.reference }}</span></th>
+            <td>{{ order.createdAt|date('d/m/Y à H:i')}}</td>
+            <td>{{ (order.total/100)|number_format(2,',', ' ') }} €</td>
+            <td><a class='btn btn-info btn-sm' href="{{ path('account_orders_show', {reference: order.reference})}}">Voir la commande</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}

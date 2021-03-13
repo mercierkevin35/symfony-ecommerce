@@ -1,0 +1,76 @@
+{% macro displayCart(cart, extra = null) %}
+{% from "_includes/thumbnail.twig" import thumbnail %}
+<table class="order-summary">
+    <thead>
+        <tr>
+            <th class="text-center" colspan="5">
+                Récapitulatif de ma commande
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% set total = 0 %}
+        {% for item in cart %}
+            {% set price = item.product.price/100 %}
+            {% set priceTimesQty  = price * item.qty %}
+            {% set total = total + priceTimesQty %}
+                <tr>
+                    <td>
+                        {{ thumbnail(item.product.name, item.product.illustration, item.product.name, 30)}}
+                    </td>
+                    <td>
+                        {{ price|number_format(2, ',', ' ') }} €
+                    </td>
+                    <td>
+                        x
+                    </td>
+                    <td>
+                        {{ item.qty }}
+                    </td>
+                    <td>
+                        {{ (price * item.qty)|number_format(2, ',', ' ') }} €
+                    </td>
+                </tr>
+        {% endfor %}
+        {% if extra %}
+            {% for item in extra %}
+                {% if item.qty is defined %}
+                    {% set qty = item.qty %}
+                {% else %}
+                    {% set qty = 1 %}
+                {% endif %}
+                {% set price = item.price/100 %}
+                {% set priceTimesQty  = price * qty %}
+                {% set total = total + priceTimesQty %}
+                
+                <tr>
+                    <td>
+                        {{ item.name }}
+                    </td>
+                    <td>
+                        {{ price|number_format(2, ',', ' ') }} €
+                    </td>
+                    <td>
+                        x
+                    </td>
+                    <td>
+                        {{ qty }}
+                    </td>
+                    <td>
+                        {{ priceTimesQty|number_format(2, ',', ' ') }} €
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endif %}
+        <tr>
+            <td class = "order-total" colspan = "4">
+                <strong>Total : </strong>
+            </td>
+            <td>
+                {{ total|number_format(2, ',', ' ') }} €
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+{% endmacro %}

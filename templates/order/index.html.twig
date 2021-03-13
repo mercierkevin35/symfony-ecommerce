@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+{% from "_includes/display_cart.twig" import displayCart %}
+
+{% block title %}Valider ma commande - {{ SHOP_NAME }}{% endblock %}
+
+{% block content %}
+    <h2>Je passe ma commande</h2>
+    <p>
+        Choisissez vos préférences avant de passer votre commande sur La Boutique Française
+    </p>
+    <hr>
+    <div class="row">
+        <div class="col-xl-6">
+            {{ form_start(form) }}
+                {{ form_label(form.addresses, 'Choisissez votre adresse de livraison') }}
+                <a href="{{ path('add_address')}}" class="btn btn-sm btn-info mb-2">Ajouter une nouvelle adresse</a>
+            {{ form_end(form)|replace({'[br]' : '<br>', '[b]' : '<b>', '[/b]' : '</b>'})|raw }}
+        </div>
+        <div class="col-xl-6">
+            {{ displayCart(cart) }}
+        </div>
+    </div>
+{% endblock %}
